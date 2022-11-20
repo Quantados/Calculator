@@ -249,7 +249,7 @@
                         input = string.Empty; // set input to empty
                         operand1 = runningTotal.ToString(); // set operand 1 to running total
                         runningTotal = 0; // set running total to 0
-                        break;
+                        break; //break
 
                     case '*':
                         result = Math.Round((num1 * num2), 10);
