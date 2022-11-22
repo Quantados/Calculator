@@ -20,6 +20,7 @@
         {
             this.labelInput.Text = string.Empty;
             this.labelOutput.Text = string.Empty;
+            buttonDegrees.Checked = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -187,7 +188,86 @@
             {
                 switch (operation)
                 {
+                    case 'T':
+                        if (buttonDegrees.Checked == true)
+                        {
+                            if (num2 == 90 || num2 == 270)
+                            {
+                                result = 0;
+                                this.labelOutput.Text = "UNDEFINED";
+                            }
+                            else
+                            {
+                                result = Math.Round(Math.Tan(Math.PI / 180 * num2), 5);
+                            }
+                        }
 
+                        else
+                        {
+                            result = Math.Round(Math.Tan(num2), 5);
+                        }
+
+                        if (labelOutput.Text == "= -0")
+                        {
+                                result = 0;
+                                labelOutput.Text = "= " + result.ToString();
+                        }
+
+                        else
+                        {
+                            if (labelOutput.Text == "UNDEFINED")
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                labelOutput.Text = "= " + result.ToString();
+                            }
+                        }
+                        
+                        break;
+                    case 'C':
+                        if (buttonDegrees.Checked == true)
+                        {
+                            result = Math.Round(Math.Cos(Math.PI / 180 * num2), 5);
+                        }
+
+                        else
+                        {
+                            result = Math.Round(Math.Cos(num2), 5);
+                        }
+                        if (result == -0)
+                        {
+                            result = 0;
+                            labelOutput.Text = "= " + result.ToString();
+                        }
+
+                        else
+                        {
+                            labelOutput.Text = "= " + result.ToString();
+                        }
+                        break;
+                    case 'S':
+                        if (buttonDegrees.Checked == true)
+                        {
+                            result = Math.Round(Math.Sin(Math.PI / 180 * num2), 5);
+                        }
+
+                        else
+                        {
+                            result = Math.Round(Math.Sin(num2), 5);
+                        }
+                        if (result == -0)
+                        {
+                            result = 0;
+                            labelOutput.Text = "= " + result.ToString();
+                        }
+
+                        else
+                        {
+                            labelOutput.Text = "= " + result.ToString();
+                        }
+                        break;
                     case '√':
                         result = Math.Round(Math.Sqrt(num2), 10);
                         labelOutput.Text = "= " + result.ToString();
@@ -221,6 +301,8 @@
                         }
                         break;
                 }
+
+                
             }
 
             // clears input and set operands for future calculations
@@ -296,10 +378,21 @@
 
         private void buttonSQRT_Click(object sender, EventArgs e)
         {
-                operand1 = input;
+            if (labelOutput.Text != string.Empty)
+            {
+                this.labelOutput.Text = string.Empty;
+                operation = '√';
+                input = result.ToString();
+                this.labelInput.Text = "√(ans)";
+            }
+
+            else
+            {
+                operand2 = input;
                 operation = '√';
                 input = string.Empty;
-                this.labelInput.Text += '√';
+                this.labelInput.Text += "√";
+            }
         }
 
         private void buttonDivide_Click(object sender, EventArgs e)
@@ -365,14 +458,14 @@
                 this.labelOutput.Text = string.Empty;
                 operand1 = result.ToString();
                 operation = '*';
-                this.labelInput.Text = "Ans*";
+                this.labelInput.Text = "Ans×";
                 checkOperand2();
             }
             else
             {
                 if (operand1 != string.Empty)
                 {
-                    operand2= input;
+                    operand2 = input;
                 }
 
                 else
@@ -381,7 +474,7 @@
                     operation = '*';
                     input = string.Empty;
                 }
-                this.labelInput.Text += '*';
+                this.labelInput.Text += '×';
                 checkOperand2();
             }
         }
@@ -416,9 +509,20 @@
         }
         private void buttonSquare_Click(object sender, EventArgs e)
         {
-            operand1 = input;
-            operation = '²';
-            this.labelInput.Text += '²';
+            if (labelOutput.Text != string.Empty)
+            {
+                this.labelOutput.Text = string.Empty;
+                operand1 = result.ToString();
+                operation = '²';
+                this.labelInput.Text = "Ans²";
+            }
+
+            else
+            {
+                operand1 = input;
+                operation = '²';
+                this.labelInput.Text += '²';
+            }
         }
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
@@ -432,11 +536,6 @@
                 input += ".";
                 this.labelInput.Text += '.';
             }
-        }
-
-        private void buttonParantheses_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
@@ -465,6 +564,105 @@
                 this.labelOutput.Text = string.Empty;
                 input += result;
                 this.labelInput.Text += "Ans";
+            }
+        }
+
+        private void buttonSin_Click(object sender, EventArgs e)
+        {
+            if (labelOutput.Text != string.Empty)
+            {
+                this.labelOutput.Text = string.Empty;
+                input = result.ToString();
+                operation = 'S';
+                this.labelInput.Text = "sin(ans)";
+            }
+            
+            else
+            {
+                operand2 = input;
+                operation = 'S';
+                input = string.Empty;
+                this.labelInput.Text += "sin(";
+            }
+        }
+
+        private void buttonCos_Click(object sender, EventArgs e)
+        {
+            if (labelOutput.Text != string.Empty)
+            {
+                this.labelOutput.Text = string.Empty;
+                input = result.ToString();
+                operation = 'C';
+                this.labelInput.Text = "cos(ans)";
+            }
+
+            else
+            {
+                operand2 = input;
+                operation = 'C';
+                input = string.Empty;
+                this.labelInput.Text += "cos(";
+            }
+        }
+
+        private void buttonTan_Click(object sender, EventArgs e)
+        {
+            if (labelOutput.Text != string.Empty)
+            {
+                this.labelOutput.Text = string.Empty;
+                input = result.ToString();
+                operation = 'T';
+                this.labelInput.Text = "tan(ans)";
+            }
+
+            else
+            {
+                operand2 = input;
+                operation = 'T';
+                input = string.Empty;
+                this.labelInput.Text += "tan(";
+            }
+        }
+
+        private void buttonDegrees_CheckedChanged(object sender, EventArgs e)
+        {
+            buttonDegrees.Checked = true;
+            buttonRadians.Checked = false;
+        }
+
+        private void buttonRadians_CheckedChanged(object sender, EventArgs e)
+        {
+            buttonDegrees.Checked = false;
+            buttonRadians.Checked = true;
+        }
+
+        private void buttonPi_Click(object sender, EventArgs e)
+        {
+            if (labelOutput.Text != string.Empty)
+            {
+                this.labelOutput.Text = string.Empty;
+                input = "π";
+                this.labelInput.Text = "π";
+            }
+            else
+            {
+                input += Math.PI;
+                this.labelInput.Text += 'π';
+            }
+        }
+
+        private void buttonNegative_Click(object sender, EventArgs e)
+        {
+            if (labelOutput.Text != string.Empty)
+            {
+                this.labelOutput.Text = string.Empty;
+                input = "-";
+                this.labelInput.Text = "-";
+            }
+            else
+            {
+                input += '-';
+                this.labelInput.Text += '-';
             }
         }
     }
