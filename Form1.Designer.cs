@@ -60,6 +60,7 @@
             this.buttonDegrees = new System.Windows.Forms.RadioButton();
             this.buttonRadians = new System.Windows.Forms.RadioButton();
             this.buttonPi = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -488,12 +489,27 @@
             this.buttonPi.UseVisualStyleBackColor = false;
             this.buttonPi.Click += new System.EventHandler(this.buttonPi_Click);
             // 
+            // buttonDelete
+            // 
+            this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonDelete.BackColor = System.Drawing.Color.Black;
+            this.buttonDelete.Font = new System.Drawing.Font("Trebuchet MS", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonDelete.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.buttonDelete.Location = new System.Drawing.Point(336, 145);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(75, 75);
+            this.buttonDelete.TabIndex = 31;
+            this.buttonDelete.Text = "Del";
+            this.buttonDelete.UseVisualStyleBackColor = false;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(427, 654);
+            this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonPi);
             this.Controls.Add(this.buttonRadians);
             this.Controls.Add(this.buttonDegrees);
@@ -570,5 +586,6 @@
         private RadioButton buttonDegrees;
         private RadioButton buttonRadians;
         private Button buttonPi;
+        private Button buttonDelete;
     }
 }

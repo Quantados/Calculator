@@ -2,6 +2,7 @@
 
 // operation overhaul branch
 
+{ 
     public partial class Form1 : Form
     {
         string input = string.Empty;
@@ -30,12 +31,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "1";
                 this.labelInput.Text = "1";
             }
             else
             {
-                input += '1';
                 this.labelInput.Text += '1';
             }
         }
@@ -44,12 +43,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "2";
                 this.labelInput.Text = "2";
             }
             else
             {
-                input += '2';
                 this.labelInput.Text += '2';
             }
         }
@@ -58,12 +55,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "3";
                 this.labelInput.Text = "3";
             }
             else
             {
-                input += '3';
                 this.labelInput.Text += '3';
             }
 
@@ -73,12 +68,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "4";
                 this.labelInput.Text = "4";
             }
             else
             {
-                input += "4";
                 this.labelInput.Text += '4';
             }
 
@@ -88,12 +81,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "5";
                 this.labelInput.Text = "5";
             }
             else
             {
-                input += '5';
                 this.labelInput.Text += '5';
             }
 
@@ -103,12 +94,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "6";
                 this.labelInput.Text = "6";
             }
             else
             {
-                input += '6';
                 this.labelInput.Text += '6';
             }
 
@@ -118,12 +107,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "7";
                 this.labelInput.Text = "7";
             }
             else
             {
-                input += '7';
                 this.labelInput.Text += '7';
             }
 
@@ -133,12 +120,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "8";
                 this.labelInput.Text = "8";
             }
             else
             {
-                input += '8';
                 this.labelInput.Text += '8';
             }
 
@@ -148,12 +133,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "9";
                 this.labelInput.Text = "9";
             }
             else
             {
-                input += '9';
                 this.labelInput.Text += '9';
             }
 
@@ -163,149 +146,220 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "0";
                 this.labelInput.Text = "0";
             }
             else
             {
-                input += "0";
                 this.labelInput.Text += '0';
             }
 
         }
-        private void buttonEnter_Click(object sender, EventArgs e)
+       
+        private bool SyntaxCheck(string  Input)
+        {
+            bool Valid = true;
+
+            for (int i = 0; i < Input.Length-1; i ++)
+            {
+                if (Input[i] == '+' || Input[i] == '-' || Input[i] == '/' || Input[i] == '×')
+                {
+                    if (Input[i+1] == '+' || Input[i+1] == '-' || Input[i+1] == '/' || Input[i+1] == '×')
+                    {
+                        Valid = false;
+                    }
+                }
+            }
+
+            if(Input[0] == '+' || Input[0] == '-' || Input[0] == '/' || Input[0] == '×')
+            {
+                Valid = false;
+            }
+            
+            int len = Input.Length-1;
+            
+            if (Input[len] == '+' || Input[len] == '-' || Input[len] == '/' || Input[len] == '×')
+            {
+                Valid = false;
+            }
+
+            return Valid;
+        }
+
+
+        private double TextParser(string Input)
         {
             operand2 = input;
-            double num1, num2;
-            double.TryParse(operand1, out num1);
-            double.TryParse(operand2, out num2);
+            double Result = 0;
+            string[] Numbers;
+            string[] Operators;
+            char[] symbols = { '+', '-', '/', '×' };
+            char[] numbers = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.' }; 
 
 
-            if (operand2 == string.Empty)
+            Numbers = Input.Split(symbols);
+            Operators = Input.Split(numbers, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < Operators.Count(); i++)
+            {
+                if (Operators[i] == "/" || Operators[i] == "×")
+                {
+                    if (Operators[i] == "/")
+                    {
+                        Result = Double.Parse(Numbers[i]) / Double.Parse(Numbers[i + 1]);
+                        Numbers[i + 1] = Result.ToString();
+                    }
+
+                    else
+                    {
+                        Result = Double.Parse(Numbers[i]) * Double.Parse(Numbers[i + 1]);
+                        Numbers[i + 1] = Result.ToString();
+                    }
+                }
+            }
+
+            /*switch (operation)
+            {
+                case 'T':
+                    if (buttonDegrees.Checked == true)
+                    {
+                        if (num2 == 90 || num2 == 270)
+                        {
+                            result = 0;
+                            this.labelOutput.Text = "UNDEFINED";
+                        }
+                        else
+                        {
+                            result = Math.Round(Math.Tan(Math.PI / 180 * num2), 5);
+                        }
+                    }
+
+                    else
+                    {
+                        result = Math.Round(Math.Tan(num2), 5);
+                    }
+
+                    if (labelOutput.Text == "= -0")
+                    {
+                        result = 0;
+                        labelOutput.Text = "= " + result.ToString();
+                    }
+
+                    else
+                    {
+                        if (labelOutput.Text == "UNDEFINED")
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            labelOutput.Text = "= " + result.ToString();
+                        }
+                    }
+
+                    break;
+                case 'C':
+                    if (buttonDegrees.Checked == true)
+                    {
+                        result = Math.Round(Math.Cos(Math.PI / 180 * num2), 5);
+                    }
+
+                    else
+                    {
+                        result = Math.Round(Math.Cos(num2), 5);
+                    }
+                    if (result == -0)
+                    {
+                        result = 0;
+                        labelOutput.Text = "= " + result.ToString();
+                    }
+
+                    else
+                    {
+                        labelOutput.Text = "= " + result.ToString();
+                    }
+                    break;
+                case 'S':
+                    if (buttonDegrees.Checked == true)
+                    {
+                        result = Math.Round(Math.Sin(Math.PI / 180 * num2), 5);
+                    }
+
+                    else
+                    {
+                        result = Math.Round(Math.Sin(num2), 5);
+                    }
+                    if (result == -0)
+                    {
+                        result = 0;
+                        labelOutput.Text = "= " + result.ToString();
+                    }
+
+                    else
+                    {
+                        labelOutput.Text = "= " + result.ToString();
+                    }
+                    break;
+                case '√':
+                    result = Math.Round(Math.Sqrt(num2), 10);
+                    labelOutput.Text = "= " + result.ToString();
+                    break;
+                case '²':
+                    result = Math.Round((num1 * num1), 10);
+                    labelOutput.Text = "= " + result.ToString();
+                    break;
+                case '+':
+                    result = Math.Round((num1 + num2), 10);
+                    labelOutput.Text = "= " + result.ToString();
+                    break;
+
+                case '-':
+                    result = Math.Round((num1 - num2), 10);
+                    labelOutput.Text = "= " + result.ToString();
+                    break;
+                case '*':
+                    result = Math.Round((num1 * num2), 10);
+                    labelOutput.Text = "= " + result.ToString();
+                    break;
+                case '/':
+                    if (num2 != 0)
+                    {
+                        result = Math.Round((num1 / num2), 10);
+                        labelOutput.Text = "= " + result.ToString();
+                    }
+                    else
+                    {
+                        labelOutput.Text = "DIVIDE BY ZERO ERROR";
+                    }
+                    break;
+
+                    
+             }
+            
+            */
+            return Result;
+        }
+        private void buttonEnter_Click(object sender, EventArgs e)
+        {
+
+            if (labelInput.Text == string.Empty)
             {
                 this.labelOutput.Text = "SYNTAX ERROR";
             }
 
             else
             {
-                switch (operation)
+                if (SyntaxCheck(labelInput.Text) == true)
                 {
-                    case 'T':
-                        if (buttonDegrees.Checked == true)
-                        {
-                            if (num2 == 90 || num2 == 270)
-                            {
-                                result = 0;
-                                this.labelOutput.Text = "UNDEFINED";
-                            }
-                            else
-                            {
-                                result = Math.Round(Math.Tan(Math.PI / 180 * num2), 5);
-                            }
-                        }
-
-                        else
-                        {
-                            result = Math.Round(Math.Tan(num2), 5);
-                        }
-
-                        if (labelOutput.Text == "= -0")
-                        {
-                                result = 0;
-                                labelOutput.Text = "= " + result.ToString();
-                        }
-
-                        else
-                        {
-                            if (labelOutput.Text == "UNDEFINED")
-                            {
-                                return;
-                            }
-                            else
-                            {
-                                labelOutput.Text = "= " + result.ToString();
-                            }
-                        }
-                        
-                        break;
-                    case 'C':
-                        if (buttonDegrees.Checked == true)
-                        {
-                            result = Math.Round(Math.Cos(Math.PI / 180 * num2), 5);
-                        }
-
-                        else
-                        {
-                            result = Math.Round(Math.Cos(num2), 5);
-                        }
-                        if (result == -0)
-                        {
-                            result = 0;
-                            labelOutput.Text = "= " + result.ToString();
-                        }
-
-                        else
-                        {
-                            labelOutput.Text = "= " + result.ToString();
-                        }
-                        break;
-                    case 'S':
-                        if (buttonDegrees.Checked == true)
-                        {
-                            result = Math.Round(Math.Sin(Math.PI / 180 * num2), 5);
-                        }
-
-                        else
-                        {
-                            result = Math.Round(Math.Sin(num2), 5);
-                        }
-                        if (result == -0)
-                        {
-                            result = 0;
-                            labelOutput.Text = "= " + result.ToString();
-                        }
-
-                        else
-                        {
-                            labelOutput.Text = "= " + result.ToString();
-                        }
-                        break;
-                    case '√':
-                        result = Math.Round(Math.Sqrt(num2), 10);
-                        labelOutput.Text = "= " + result.ToString();
-                        break;
-                    case '²':
-                        result = Math.Round((num1 * num1), 10);
-                        labelOutput.Text = "= " + result.ToString();
-                        break;
-                    case '+':
-                            result = Math.Round((num1 + num2), 10);
-                            labelOutput.Text = "= " + result.ToString();
-                        break;
-                        
-                    case '-':
-                        result = Math.Round((num1 - num2), 10);
-                        labelOutput.Text = "= " + result.ToString();
-                        break;
-                    case '*':
-                        result = Math.Round((num1 * num2), 10);
-                        labelOutput.Text = "= " + result.ToString();
-                        break;
-                    case '/':
-                        if (num2 != 0)
-                        {
-                            result = Math.Round((num1 / num2), 10);
-                            labelOutput.Text = "= " + result.ToString();
-                        }
-                        else
-                        {
-                            labelOutput.Text = "DIVIDE BY ZERO ERROR";
-                        }
-                        break;
+                    result = TextParser(labelInput.Text);
+                    labelOutput.Text = result.ToString();
+                    return;
                 }
-
-                
+                else
+                {
+                    this.labelOutput.Text = "SYNTAX ERROR";
+                }
             }
+        
 
             // clears input and set operands for future calculations
             this.input = string.Empty;
@@ -383,15 +437,11 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                operation = '√';
-                input = result.ToString();
                 this.labelInput.Text = "√(ans)";
             }
 
             else
             {
-                operand2 = input;
-                operation = '√';
                 input = string.Empty;
                 this.labelInput.Text += "√";
             }
@@ -402,26 +452,12 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                operand1 = result.ToString();
-                operation = '/';
                 this.labelInput.Text = "Ans/";
-                checkOperand2();
             }
+
             else
             {
-                if (operand1 != string.Empty)
-                {
-                    operand2 = input;
-                }
-
-                else
-                {
-                    operand1 = input;
-                    operation = '/';
-                    input = string.Empty;
-                }
                 this.labelInput.Text += '/';
-                checkOperand2();
             }
         }
 
@@ -430,83 +466,40 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                operand1 = result.ToString();
-                operation = '+';
                 this.labelInput.Text = "Ans+";
-                checkOperand2();
             }
+
             else
             {
-                if (operand1 != string.Empty)
-                {
-                    operand2= input;
-                }
-
-                else
-                {
-                    operand1 = input;
-                    operation = '+';
-                    input = string.Empty;
-                }
                 this.labelInput.Text += '+';
-                checkOperand2();
             }
         }
 
         private void buttonMultiply_Click(object sender, EventArgs e)
         {
-            if (labelOutput.Text  != string.Empty)
+            if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                operand1 = result.ToString();
-                operation = '*';
                 this.labelInput.Text = "Ans×";
-                checkOperand2();
             }
+            
             else
             {
-                if (operand1 != string.Empty)
-                {
-                    operand2 = input;
-                }
-
-                else
-                {
-                    operand1 = input;
-                    operation = '*';
-                    input = string.Empty;
-                }
                 this.labelInput.Text += '×';
-                checkOperand2();
             }
         }
 
         private void buttonSubtract_Click(object sender, EventArgs e)
         {
             if (labelOutput.Text != string.Empty)
-            {
+            { 
                 this.labelOutput.Text = string.Empty;
-                operand1 = result.ToString();
-                operation = '-';
                 this.labelInput.Text = "Ans-";
-                checkOperand2();
             }
+            
             else
             {
-                if (operand1 != string.Empty)
-                {
-                    operand2= input;
-                }
-
-
-                else
-                {
-                    operand1 = input;
-                    operation = '-';
-                    input = string.Empty;
-                }
                 this.labelInput.Text += '-';
-                checkOperand2();
             }
         }
         private void buttonSquare_Click(object sender, EventArgs e)
@@ -514,15 +507,11 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                operand1 = result.ToString();
-                operation = '²';
                 this.labelInput.Text = "Ans²";
             }
 
             else
             {
-                operand1 = input;
-                operation = '²';
                 this.labelInput.Text += '²';
             }
         }
@@ -535,7 +524,6 @@
             }
             else
             {
-                input += ".";
                 this.labelInput.Text += '.';
             }
         }
@@ -558,13 +546,11 @@
                 this.operand2 = string.Empty;
                 this.labelOutput.Text = string.Empty;
                 this.labelInput.Text = string.Empty;
-                input += result;
                 this.labelInput.Text += "Ans";
             }
             else
             {
                 this.labelOutput.Text = string.Empty;
-                input += result;
                 this.labelInput.Text += "Ans";
             }
         }
@@ -574,16 +560,11 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = result.ToString();
-                operation = 'S';
                 this.labelInput.Text = "sin(ans)";
             }
             
             else
             {
-                operand2 = input;
-                operation = 'S';
-                input = string.Empty;
                 this.labelInput.Text += "sin(";
             }
         }
@@ -593,15 +574,11 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = result.ToString();
-                operation = 'C';
                 this.labelInput.Text = "cos(ans)";
             }
 
             else
             {
-                operand2 = input;
-                operation = 'C';
                 input = string.Empty;
                 this.labelInput.Text += "cos(";
             }
@@ -612,15 +589,12 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = result.ToString();
-                operation = 'T';
                 this.labelInput.Text = "tan(ans)";
             }
 
             else
             {
                 operand2 = input;
-                operation = 'T';
                 input = string.Empty;
                 this.labelInput.Text += "tan(";
             }
@@ -643,12 +617,10 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "π";
                 this.labelInput.Text = "π";
             }
             else
             {
-                input += Math.PI;
                 this.labelInput.Text += 'π';
             }
         }
@@ -658,13 +630,24 @@
             if (labelOutput.Text != string.Empty)
             {
                 this.labelOutput.Text = string.Empty;
-                input = "-";
                 this.labelInput.Text = "-";
             }
             else
             {
-                input += '-';
                 this.labelInput.Text += '-';
+            }
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            if (labelInput.Text != string.Empty)
+            {
+            labelInput.Text = this.labelInput.Text.Remove(labelInput.Text.Length-1);
+            }
+
+            else
+            {
+                return;
             }
         }
     }
